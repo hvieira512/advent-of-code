@@ -19,6 +19,10 @@ func getFileContent(input string) (string, error) {
 	return string(file), nil
 }
 
+func calculateFuel(mass int) int {
+	return int(math.Floor(float64(mass)/3)) - 2
+}
+
 func getPart1(input string) (result int) {
 	scanner := bufio.NewScanner(strings.NewReader(input))
 
@@ -27,9 +31,11 @@ func getPart1(input string) (result int) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		result += calculateFuel(mass)
+	}
 
-		fuel := int(math.Floor(float64(mass/3))) - 2
-		result += fuel
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
 	}
 
 	return
@@ -44,25 +50,18 @@ func getPart2(input string) (result int) {
 			log.Fatal(err)
 		}
 
-		fmt.Printf("Mass:%d | Fuel:", mass)
-
-		totalFuel := 0
-		for {
-			fuel := int(math.Floor(float64(mass/3))) - 2
-			fmt.Printf("%d ", fuel)
-			if (int(math.Floor(float64(fuel/3))) - 2) <= 0 {
-				if totalFuel == 0 {
-					totalFuel = fuel
-				} else {
-					totalFuel += fuel
-				}
-				break
+		fuel := 0
+		for currentMass := mass; currentMass > 0; currentMass = calculateFuel(currentMass) {
+			currentFuel := calculateFuel(currentMass)
+			if currentFuel > 0 {
+				fuel += currentFuel
 			}
-			mass = fuel
-			totalFuel += fuel
 		}
-		fmt.Printf("= %d\n", totalFuel)
-		result += totalFuel
+		result += fuel
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
 	}
 
 	return

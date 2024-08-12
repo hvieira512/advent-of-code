@@ -5,19 +5,10 @@ import (
 	"fmt"
 	"log"
 	"math"
-	"os"
 	"strconv"
 	"strings"
+	// "github.com/hvieira512/advent-of-code/util"
 )
-
-func getFileContent(input string) (string, error) {
-	file, err := os.ReadFile(input)
-	if err != nil {
-		return "", err
-	}
-
-	return string(file), nil
-}
 
 func calculateFuel(mass int) int {
 	return int(math.Floor(float64(mass)/3)) - 2
@@ -70,7 +61,7 @@ func getPart2(input string) (result int) {
 func main() {
 	fmt.Println("---- Day 1 ----")
 
-	data, err := getFileContent("input.txt")
+	data, err := GetFileContent("input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

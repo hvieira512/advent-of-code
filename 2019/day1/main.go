@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/hvieira512/advent-of-code/utils"
+	"github.com/hvieira512/advent-of-code-2019/utils"
 	"log"
 	"math"
 	"strconv"
@@ -61,7 +61,7 @@ func getPart2(input string) (result int) {
 func main() {
 	fmt.Println("---- Day 1 ----")
 
-	data, err := GetFileContent("input.txt")
+	data, err := utils.ReadFile("input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

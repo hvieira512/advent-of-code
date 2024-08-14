@@ -3,11 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/hvieira512/advent-of-code-2019/utils"
 	"log"
 	"math"
 	"strconv"
 	"strings"
+
+	"github.com/hvieira512/advent-of-code-2019/utils"
 )
 
 func calculateFuel(mass int) int {

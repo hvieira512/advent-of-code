@@ -1,0 +1,51 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/hvieira512/advent-of-code-2019/utils"
+)
+
+func getValues(data []string) (values []int) {
+	for _, value := range data {
+		x, _ := strconv.Atoi(value)
+		values = append(values, x)
+	}
+
+	return
+}
+
+// opcode - either 1, 2, or 99
+func getPart1(numbers []int) (result int) {
+	fmt.Println(numbers)
+
+outerLoop:
+	for i := 0; i < len(numbers); i += 4 {
+		fmt.Println(numbers[i])
+		input1 := i + 1
+		input2 := i + 2
+		output := i + 3
+		switch numbers[i] {
+		case 99:
+			break outerLoop
+		case 1:
+			numbers[output] = numbers[input1] + numbers[input2]
+		case 2:
+			numbers[i+3] = numbers[i+1] * numbers[i+2]
+		}
+		fmt.Println(numbers)
+	}
+
+	return
+}
+
+func main() {
+	fmt.Println("---- Day 2 ----")
+
+	data, _ := utils.ReadCSVFile("example.txt")
+	numbers := getValues(data)
+
+	resultPart1 := getPart1(numbers)
+	fmt.Printf("Result Part 1: %d\n", resultPart1)
+}

@@ -1,67 +1,48 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"log"
 	"strconv"
-	"strings"
 
 	"github.com/hvieira512/advent-of-code-2019/utils"
 )
 
-func getPart1(data string) (result int) {
-	scanner := bufio.NewScanner(strings.NewReader(data))
-
-	for scanner.Scan() {
-		row, err := strconv.Atoi(scanner.Text())
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(row)
-
-		// Do logic here
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+func getValues(data []string) (values []int) {
+	for _, value := range data {
+		x, _ := strconv.Atoi(value)
+		values = append(values, x)
 	}
 
 	return
 }
 
-func getPart2(data string) (result int) {
-	scanner := bufio.NewScanner(strings.NewReader(data))
+// opcode - either 1, 2, or 99
+func getPart1(numbers []int) (result int) {
+	numbers[1] = 12
+	numbers[2] = 2
 
-	for scanner.Scan() {
-		row, err := strconv.Atoi(scanner.Text())
-		if err != nil {
-			log.Fatal(err)
+	for i := 0; i < len(numbers); i += 4 {
+		// opcode to stop the program or trying to access out-of-bounds index
+		if numbers[i] == 99 || numbers[i+3] >= len(numbers) {
+			break
 		}
-		fmt.Println(row)
 
-		// Do logic here
+		switch numbers[i] {
+		case 1:
+			numbers[numbers[i+3]] = numbers[numbers[i+1]] + numbers[numbers[i+2]]
+		case 2:
+			numbers[numbers[i+3]] = numbers[numbers[i+1]] * numbers[numbers[i+2]]
+		}
 	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	return
+	return numbers[0]
 }
 
 func main() {
-	fmt.Println("---- Day 1 ----")
+	fmt.Println("---- Day 2 ----")
 
-	data, err := utils.ReadFile("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	data, _ := utils.ReadCSVFile("input.txt")
+	numbers := getValues(data)
 
-	resultPart1 := getPart1(data)
+	resultPart1 := getPart1(numbers)
 	fmt.Printf("Result Part 1: %d\n", resultPart1)
-
-	resultPart2 := getPart2(data)
-	fmt.Printf("Result Part 2: %d", resultPart2)
-
 }

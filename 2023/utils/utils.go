@@ -34,3 +34,7 @@ func GetValuesLine(lines []string, lineNumber int, sep string) ([]int, error) {
 
 	return values, nil
 }
+
+func RemoveElementFromIntSlice(slice []int, i int) []int {
+	return append(slice[:i], slice[i+1:]...)
+}

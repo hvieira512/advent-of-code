@@ -1,4 +1,4 @@
-# Advent of Code 2022 | Go
+# Advent of Code 2025 | Go
 Hi there, thanks for checking out my repository!
 This year, I will be trying my best using Go, to learn more about the language.
 

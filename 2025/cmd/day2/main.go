@@ -19,40 +19,40 @@ func invalid(s string) bool {
 }
 
 func secondInvalid(s string) bool {
-	n := len(s)
+    n := len(s)
 
-	for size := 1; size <= n/2; size++ {
-		if n%size != 0 {
-			continue
-		}
+    for size := 1; size <= n/2; size++ {
+        if n%size != 0 {
+            continue
+        }
 
-		block := s[:size]
-		valid := true
+        block := s[:size]
+        valid := true
 
-		for i := 0; i < n; i += size {
-			if s[i:i+size] != block {
-				valid = false
-				break
-			}
-		}
+        for i := 0; i < n; i += size {
+            if s[i:i+size] != block {
+                valid = false
+                break
+            }
+        }
 
-		if valid {
-			return true
-		}
-	}
+        if valid {
+            return true
+        }
+    }
 
-	return false
+    return false
 }
 
 
-func partOne(data []string) int {
+func solve(data []string, isInvalid func(string) bool) int {
 	total := 0
 
 	for _, row := range data {
 		row = strings.TrimSpace(row)
-		parts := strings.SplitSeq(row, ",")
+		ranges := strings.SplitSeq(row, ",")
 
-		for part := range parts {
+		for part := range ranges {
 			part = strings.TrimSpace(part)
 			ids := strings.Split(part, "-")
 
@@ -60,7 +60,7 @@ func partOne(data []string) int {
 			lastId, _ := strconv.Atoi(ids[1])
 
 			for i := firstId; i <= lastId; i++ {
-				if secondInvalid(strconv.Itoa(i)) {
+				if isInvalid(strconv.Itoa(i)) {
 					total += i
 				}
 			}
@@ -71,7 +71,9 @@ func partOne(data []string) int {
 }
 
 
+
 func main() {
 	data, _ := u.Strings("cmd/day2/input.txt")
-	fmt.Printf("Part 1: %v\n", partOne(data))
+	fmt.Printf("Part 1: %v\n", solve(data, invalid))
+	fmt.Printf("Part 2: %v\n", solve(data, secondInvalid))
 }

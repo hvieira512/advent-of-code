@@ -18,13 +18,12 @@ func invalid(s string) bool {
 	return s[:half] == s[half:]
 }
 
-
 func secondInvalid(s string) bool {
 	n := len(s)
 
 	for size := 1; size <= n/2; size++ {
 		if n%size != 0 {
-			continue // block must divide the length evenly
+			continue
 		}
 
 		block := s[:size]
@@ -38,7 +37,7 @@ func secondInvalid(s string) bool {
 		}
 
 		if valid {
-			return true // repeats at least twice
+			return true
 		}
 	}
 
@@ -61,8 +60,7 @@ func partOne(data []string) int {
 			lastId, _ := strconv.Atoi(ids[1])
 
 			for i := firstId; i <= lastId; i++ {
-				currStr := strconv.Itoa(i)
-				if secondInvalid(currStr) {
+				if secondInvalid(strconv.Itoa(i)) {
 					total += i
 				}
 			}
@@ -73,9 +71,7 @@ func partOne(data []string) int {
 }
 
 
-
 func main() {
 	data, _ := u.Strings("cmd/day2/input.txt")
 	fmt.Printf("Part 1: %v\n", partOne(data))
-	// fmt.Printf("Part 2: %v\n", partTwo(data))
 }

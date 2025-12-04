@@ -7,8 +7,11 @@ import (
 )
 
 func isPaperRollValid(data []string, x, y int) bool {
-	adjacent := 0
+	if data[x][y] != '@' || x < 0 || x >= len(data) || y < 0 || y >= len(data[x]) {
+		return false
+	}
 
+	adjacent := 0
 	dirs := [][2]int{
 		{-1, -1}, {-1, 0}, {-1, 1},
 		{0, -1},           {0, 1},
@@ -30,15 +33,12 @@ func isPaperRollValid(data []string, x, y int) bool {
 	return adjacent < 4
 }
 
+
 func partOne(data []string) int {
 	total := 0
 
 	for i := range data {
 		for j := range data[i] {
-			if data[i][j] != '@' {
-				continue
-			}
-
 			if isPaperRollValid(data, i, j) {
 				total++
 			}
@@ -47,6 +47,7 @@ func partOne(data []string) int {
 
 	return total
 }
+
 
 func partTwo(data []string) int {
 	total := 0
@@ -58,10 +59,6 @@ func partTwo(data []string) int {
 			row := []byte(data[i])
 
 			for j := range row {
-				if row[j] != '@' {
-					continue
-				}
-
 				if isPaperRollValid(data, i, j) {
 					row[j] = '.'
 					total++
@@ -79,6 +76,7 @@ func partTwo(data []string) int {
 
 	return total
 }
+
 
 
 func main () {

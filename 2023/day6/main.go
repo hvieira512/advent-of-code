@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/hvieira512/aoc2023/utils"
+	"adventofcode/utils"
 )
 
 type Race struct {

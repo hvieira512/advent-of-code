@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hvieira512/aoc2023/utils"
+	"adventofcode/utils"
 )
 
 // a hand has 5 cards and the bid

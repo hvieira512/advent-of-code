@@ -12,3 +12,10 @@ func ReadLines(path string) []string {
 	}
 	return strings.Split(strings.TrimSpace(string(raw)), "\n")
 }
+
+func Abs(n int) int {
+	if n < 0 {
+		return -n
+	}
+	return n
+}

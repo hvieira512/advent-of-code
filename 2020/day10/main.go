@@ -12,6 +12,7 @@ func main() {
 	data := parse(utils.ReadLines("input.txt"))
 
 	fmt.Println("Part 1:", part1(data))
+	fmt.Println("Part 2:", part2(data))
 }
 
 func parse(data []string) []int {
@@ -37,4 +38,18 @@ func part1(data []int) int {
 	}
 
 	return differences[1] * differences[3]
+}
+
+func part2(data []int) int {
+	ways := map[int]int{
+		0: 1,
+	}
+
+	for _, adapter := range data[1:] {
+		ways[adapter] = ways[adapter-1] +
+			ways[adapter-2] +
+			ways[adapter-3]
+	}
+
+	return ways[data[len(data)-1]]
 }

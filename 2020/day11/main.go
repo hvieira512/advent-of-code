@@ -22,9 +22,10 @@ var directions = [][2]int{
 }
 
 func main() {
-	grid := parse(utils.ReadLines("example.txt"))
+	grid := parse(utils.ReadLines("input.txt"))
 
-	fmt.Println("Part 1:", part1(grid))
+	fmt.Println("Part 1:", solve(grid, Grid.countAdjacentOccupied, 4))
+	fmt.Println("Part 2:", solve(grid, Grid.countVisibleOccupied, 5))
 }
 
 func parse(data []string) Grid {
@@ -37,9 +38,9 @@ func parse(data []string) Grid {
 	return grid
 }
 
-func part1(grid Grid) int {
+func solve(grid Grid, count func(Grid, int, int) int, tolerance int) int {
 	for {
-		next := grid.run()
+		next := grid.run(count, tolerance)
 
 		if reflect.DeepEqual(grid, next) {
 			return next.countOccupied()
@@ -49,14 +50,14 @@ func part1(grid Grid) int {
 	}
 }
 
-func (g Grid) run() Grid {
+func (g Grid) run(count func(Grid, int, int) int, tolerance int) Grid {
 	next := make(Grid, len(g))
 
 	for row := range g {
 		next[row] = make([]byte, len(g[row]))
 
 		for col, seat := range g[row] {
-			occupied := g.countAdjacentOccupied(row, col)
+			occupied := count(g, row, col)
 
 			switch seat {
 			case Empty:
@@ -64,7 +65,7 @@ func (g Grid) run() Grid {
 					seat = Occupied
 				}
 			case Occupied:
-				if occupied >= 4 {
+				if occupied >= tolerance {
 					seat = Empty
 				}
 			}
@@ -87,6 +88,24 @@ func (g Grid) countAdjacentOccupied(row, col int) int {
 		}
 
 		if g[r][c] == Occupied {
+			count++
+		}
+	}
+
+	return count
+}
+
+func (g Grid) countVisibleOccupied(row, col int) int {
+	count := 0
+
+	for _, dir := range directions {
+		r, c := row+dir[0], col+dir[1]
+
+		for r >= 0 && r < len(g) && c >= 0 && c < len(g[r]) && g[r][c] == Floor {
+			r, c = r+dir[0], c+dir[1]
+		}
+
+		if r >= 0 && r < len(g) && c >= 0 && c < len(g[r]) && g[r][c] == Occupied {
 			count++
 		}
 	}
